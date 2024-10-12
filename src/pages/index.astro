@@ -1,0 +1,207 @@
+---
+import Component from "../components/Component.astro";
+import Experience from "../components/experience/index.astro";
+import Email from "../components/icons/email.astro";
+import Curriculum from "../components/icons/curriculum.astro";
+import { EXPERIENCE } from "../data/experience";
+import {EXPERIENCE_MORE} from "../data/experience_more";
+import Layout from "../layouts/Layout.astro";
+import Linkedin from "../components/icons/linkedin.astro";
+import Github from "../components/icons/github.astro";
+---
+<Layout title="Vadim Rusin">
+  <div class="relative hero z-10">
+    <div
+      class="mx-auto min-h-screen max-w-screen-2xl px-6 py-12 font-sans md:px-12 md:py-20 lg:px-24 lg:py-0"
+    >
+      <div class="lg:flex lg:justify-between lg:gap-4">
+        <header
+          class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:flex-col lg:justify-between lg:py-24"
+        >
+          <div
+            class="flex lg:items-start gap-4 flex-col lg:flex-row items-center text-center lg:text-left"
+          >
+            <img src="/avatar.webp" alt="Vadim Rusin" class="w-16 h-16" />
+            <div>
+              <a
+                href="/"
+                class="text-4xl lg:text-5xl block font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50"
+              >
+                <h1 class="pb-2 leading-[3.5rem]">Jorge Estébanez</h1>
+              </a>
+              <h2 class="mt-2 text-sm lg:text-2xl font-medium text-neutral-400">
+                Front-End Developer
+              </h2>
+
+              <div
+                class="flex gap-x-4 lg:flex-col md:flex-row items-start max-md:items-center max-md:flex-col"
+              >
+                <a
+                  data-ccursor
+                  href="https://jorge.staycode.dev/cv/en/curriculum-jorge_estebanez_martin-en.pdf"
+                  target="_blank"
+                  class="min-w-36 inline-flex transition-all border-neutral-700 hover:border-opacity-0 border-opacity-50 shadow rounded-md border backdrop-blur-xl bg-neutral-400/10 px-3 py-2.5 items-center text-white font-semibold group p-2 text-sm gap-x-2 mt-4"
+                >
+                  <span>{<Component component={Curriculum} />}</span>
+                  <span>Curriculum</span>
+                </a>
+
+                <a
+                  data-ccursor
+                  href="https://www.linkedin.com/in/jorge-estebanez-martin"
+                  target="_blank"
+                  class="min-w-36 inline-flex transition-all border-neutral-700 hover:border-opacity-0 border-opacity-50 shadow rounded-md border backdrop-blur-xl bg-neutral-400/10 px-3 py-2.5 items-center text-white font-semibold group p-2 text-sm gap-x-2 mt-4"
+                >
+                  <span>{<Component component={Linkedin} />}</span>
+                  <span>LinkedIn</span>
+                </a>
+
+                <a
+                  data-ccursor
+                  href="https://github.com/jorge-code-sync"
+                  target="_blank"
+                  class="min-w-36 inline-flex transition-all border-neutral-700 hover:border-opacity-0 border-opacity-50 shadow rounded-md border backdrop-blur-xl bg-neutral-400/10 px-3 py-2.5 items-center text-white font-semibold group p-2 text-sm gap-x-2 mt-4"
+                >
+                  <span>{<Component component={Github} />}</span>
+                  <span>Github</span>
+                </a>
+
+                <a
+                  data-ccursor
+                  href="mailto:jorgecodesync@gmail.com"
+                  class="min-w-36 inline-flex transition-all border-neutral-700 hover:border-opacity-0 border-opacity-50 shadow rounded-md border backdrop-blur-xl bg-neutral-400/10 px-3 py-2.5 items-center text-white font-semibold group p-2 text-sm gap-x-2 mt-4"
+                >
+                  <span>{<Component component={Email} />}</span>
+                  <span>Contáctame</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main id="content" class="pt-24 lg:w-1/2 lg:py-24">
+          <section
+            id="about"
+            class="mb-12 scroll-mt-16 md:mb-12 lg:mb-12 lg:scroll-mt-24"
+            aria-label="About me"
+          >
+            <div
+              class="sticky top-0 z-20 -mx-6 mb-4 w-screen px-6 py-3 backdrop-blur-lg md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0"
+            >
+              <h2
+                class="text-sm font-bold uppercase tracking-widest text-neutral-200 lg:sr-only"
+              >
+                About
+              </h2>
+            </div>
+            <div>
+              <div class="mb-4 space-y-4">
+                <p class="text-balance">
+                  With over 8 years of experience as a freelance web and app
+                  developer, I have worked with a wide range of technologies and
+                  tools, which has allowed me to adopt a Full-Stack profile,
+                  handling all aspects of a project.
+                </p>
+                <p class="text-balance">
+                  In the past 4 years, I have specialized in Front-End
+                  development, focusing on Angular. I am passionate about
+                  programming. While my primary expertise is in Front-End, I
+                  enjoy working with different languages and technologies, as
+                  development is both my profession and my hobby.
+                </p>
+                <p></p>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="experience"
+            class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+            aria-label="Work experience"
+          >
+            <div
+              class="sticky top-0 z-20 -mx-6 mb-4 w-screen px-6 py-3 backdrop-blur-lg md:-mx-12 md:px-12 lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0"
+            >
+              <h2
+                class="text-sm font-bold uppercase tracking-widest text-neutral-200"
+              >
+                Projects
+              </h2>
+            </div>
+            <div>
+              <ol class="group/list space-y-12">
+                {EXPERIENCE.map((experience) =>
+                <Experience {...experience} />)}
+              </ol>
+
+              <div class="mt-12">
+                <a
+                  data-ccursor
+                  class="inline-flex items-center leading-tight text-neutral-200 font-semibold group p-2 rounded px-3 cursor-pointer"
+                  aria-label="View Full Résumé"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  id="show-more-btn"
+                >
+                  <span>
+                    <span
+                      class="border-b border-transparent pb-px transition group-hover:border-neutral-300 motion-reduce:transition-none"
+                    >
+                      Show other
+                    </span>
+                    <span class="whitespace-nowrap">
+                      <span
+                        class="border-b border-transparent pb-px transition group-hover:border-neutral-300 motion-reduce:transition-none"
+                      >
+                        projects
+                      </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        class="ml-1 inline-block h-4 w-4 shrink-0 -translate-y-px transition-transform group-hover:translate-x-2 group-focus-visible:translate-x-2 motion-reduce:transition-none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
+                          clip-rule="evenodd"
+                        ></path></svg></span></span
+                ></a>
+              </div>
+
+              <div id="more-projects" class="hidden">
+                <ol class="group/list space-y-12">
+                  {EXPERIENCE_MORE.map((experience) =>
+                  <Experience {...experience} />)}
+                </ol>
+              </div>
+            </div>
+          </section>
+          <footer
+            class="max-w-md pb-16 text-sm text-neutral-500 sm:pb-0"
+          ></footer>
+        </main>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style scoped>
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .hero {
+    background-image: url(/pattern.svg);
+    background-position: top center;
+    background-repeat: no-repeat;
+    overflow-y: visible;
+    overflow-x: clip;
+  }
+</style>
