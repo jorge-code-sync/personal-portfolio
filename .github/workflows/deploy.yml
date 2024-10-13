@@ -51,3 +51,11 @@ jobs:
         PATH_DEPLOY: ${{ secrets.PATH_DEPLOY }}
       run: |
         scp -r ./dist/* "$SSH_USER@$SERVER_IP:$PATH_DEPLOY"
+
+    - name: Set file permissions on server
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        PATH_DEPLOY: ${{ secrets.PATH_DEPLOY }}
+      run: |
+        ssh "$SSH_USER@$SERVER_IP" "chmod -R 755 $PATH_DEPLOY"
