@@ -36,6 +36,14 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H "${{ secrets.SERVER_IP }}" >> ~/.ssh/known_hosts
 
+    - name: Clean deployment folder on server
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        PATH_DEPLOY: ${{ secrets.PATH_DEPLOY }}
+      run: |
+        ssh "$SSH_USER@$SERVER_IP" "rm -rf $PATH_DEPLOY/*"
+
     - name: Deploy to server via SSH
       env:
         SSH_USER: ${{ secrets.SSH_USER }}
