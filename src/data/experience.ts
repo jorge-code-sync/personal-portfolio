@@ -2,6 +2,27 @@ import type { Props as ExperienceProp } from "../components/experience/props";
 
 export const EXPERIENCE: ExperienceProp[] = [
   {
+    title: "Hexitalk",
+    url: "https://hexitalk.com",
+    description:
+      "An app where people can meet others through a system of 6 slots, where each slot is a chat with a different user. Inside each chat, there are joint activities that guide the conversation, making it easy to have topics to talk about. The app is open-source.",
+    technologies: [
+      "Angular",
+      "Jasmine",
+      "Karma",
+      "Cypress",
+      "Accessibility",
+      "Git / GitHub",
+      "RxJs",
+      "Sass",
+      "NestJS",
+      "MongoDB",
+      "Sockets",
+      "Miroservices",
+    ],
+    image: "logo_hexitalk.webp",
+  },
+  {
     title: "Foundgamers",
     url: "https://foundgamers.com",
     description:
@@ -19,21 +40,5 @@ export const EXPERIENCE: ExperienceProp[] = [
     ],
     image: "logo_foundgamers.webp",
   },
-  {
-    title: "Hexitalk",
-    url: "https://hexitalk.com",
-    description:
-      "An app where people can meet others through a system of 6 slots, where each slot is a chat with a different user. Inside each chat, there are joint activities that guide the conversation, making it easy to have topics to talk about. The app is open-source.",
-    technologies: [
-      "Angular",
-      "NestJS",
-      "MongoDB",
-      "Sockets",
-      "Git / GitHub",
-      "RxJs",
-      "Sass",
-      "Miroservices",
-    ],
-    image: "logo_hexitalk.webp",
-  },
+ 
 ];
