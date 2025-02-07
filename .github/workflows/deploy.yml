@@ -19,8 +19,13 @@ jobs:
           node-version: 21
           cache: 'pnpm'
 
-      - name: 📥 Instalar pnpm manualmente
-        run: npm install -g pnpm
+      - name: 📥 Instalar pnpm en un directorio accesible
+        run: |
+          curl -fsSL https://get.pnpm.io/install.sh | sh -
+          export PNPM_HOME="$HOME/.local/share/pnpm"
+          export PATH="$PNPM_HOME:$PATH"
+          echo "PNPM_HOME=$PNPM_HOME" >> $GITHUB_ENV
+          echo "PATH=$PNPM_HOME:$PATH" >> $GITHUB_ENV
 
       - name: 📦 Instalar dependencias
         run: pnpm install --frozen-lockfile
