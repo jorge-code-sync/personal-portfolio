@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write . --plugin=prettier-plugin-astro"
+    "format": "prettier --write . --plugin=prettier-plugin-astro",
+    "deploy": "astro check && astro build && gh-pages -d dist -b deploy"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
