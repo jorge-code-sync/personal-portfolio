@@ -13,14 +13,14 @@ jobs:
       - name: 📥 Checkout del código
         uses: actions/checkout@v4
 
-      - name: 🔧 Configurar Node.js y pnpm
+      - name: 🔧 Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 21
           cache: 'pnpm'
 
-      - name: 📥 Instalar pnpm (solución alternativa)
-        run: corepack enable && corepack prepare pnpm@latest --activate
+      - name: 📥 Instalar pnpm manualmente
+        run: npm install -g pnpm
 
       - name: 📦 Instalar dependencias
         run: pnpm install --frozen-lockfile
