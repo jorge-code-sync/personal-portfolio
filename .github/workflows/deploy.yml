@@ -1,54 +1,48 @@
-name: Build Astro and Deploy to Branch
+name: Deploy to Server
 
 on:
   push:
     branches:
-      - main  # Cambia esto si usas otra rama para desarrollo
+      - deploy
 
 jobs:
-  build-and-push:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout del código
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: 🔧 Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 21
-          cache: 'pnpm'
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
 
-      - name: 📥 Instalar pnpm en un directorio accesible
-        run: |
-          curl -fsSL https://get.pnpm.io/install.sh | sh -
-          export PNPM_HOME="$HOME/.local/share/pnpm"
-          export PATH="$PNPM_HOME:$PATH"
-          echo "PNPM_HOME=$PNPM_HOME" >> $GITHUB_ENV
-          echo "PATH=$PNPM_HOME:$PATH" >> $GITHUB_ENV
+    - name: Install pnpm
+      run: npm install -g pnpm
 
-      - name: 📦 Instalar dependencias
-        run: pnpm install --frozen-lockfile
+    - name: Install dependencies
+      run: pnpm install
 
-      - name: 🏗️ Construir el proyecto Astro
-        run: pnpm run build
+    - name: Build project
+      run: pnpm run build
 
-      - name: 🚀 Subir `dist/` a la rama `deploy`
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
+    - name: 🚀 Subir `dist/` a la rama `deploy`
+      run: |
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "GitHub Actions"
 
-          # Crear o cambiar a la rama `deploy`
-          git fetch origin deploy || true
-          git branch -D deploy || true  # Elimina la rama local si existe
-          git checkout --orphan deploy  # Crea una nueva rama sin historial
+        # Crear o cambiar a la rama `deploy`
+        git fetch origin deploy || true
+        git branch -D deploy || true  # Elimina la rama local si existe
+        git checkout --orphan deploy  # Crea una nueva rama sin historial
 
-          # Limpiar el contenido del repositorio y mover `dist/`
-          rm -rf .github src node_modules .gitignore package.json pnpm-lock.yaml
-          mv dist/* ./
-          rm -rf dist
+        # Limpiar el contenido del repositorio y mover `dist/`
+        rm -rf .github src node_modules .gitignore package.json pnpm-lock.yaml
+        mv dist/* ./
+        rm -rf dist
 
-          # Commit y push de la rama `deploy`
-          git add .
-          git commit -m "🚀 Build Astro - $(date +'%Y-%m-%d %H:%M:%S')"
-          git push --force origin deploy
+        # Commit y push de la rama `deploy`
+        git add .
+        git commit -m "🚀 Build Astro - $(date +'%Y-%m-%d %H:%M:%S')"
+        git push --force origin deploy
