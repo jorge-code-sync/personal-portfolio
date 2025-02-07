@@ -20,7 +20,9 @@ jobs:
           cache: 'pnpm'
 
       - name: 📥 Instalar pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8  # Cambia esto según la versión que uses
 
       - name: 📦 Instalar dependencias
         run: pnpm install --frozen-lockfile
