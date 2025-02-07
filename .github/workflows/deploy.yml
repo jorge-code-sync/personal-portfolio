@@ -1,61 +1,46 @@
-name: Deploy to Server
+name: Build Astro and Deploy to Branch
 
 on:
   push:
     branches:
-      - deploy
+      - main  # Cambia esto si usas otra rama para desarrollo
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: 📥 Checkout del código
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          cache: 'pnpm'
 
-    - name: Install pnpm
-      run: npm install -g pnpm
+      - name: 📦 Instalar dependencias
+        run: pnpm install --frozen-lockfile
 
-    - name: Install dependencies
-      run: pnpm install
+      - name: 🏗️ Construir el proyecto Astro
+        run: pnpm run build
 
-    - name: Build project
-      run: pnpm run build
+      - name: 🚀 Subir `dist/` a la rama `deploy`
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
 
-    - name: Set up SSH agent and add key
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H "${{ secrets.SERVER_IP }}" >> ~/.ssh/known_hosts
+          # Crear o cambiar a la rama `deploy`
+          git fetch origin deploy || true
+          git branch -D deploy || true  # Elimina la rama local si existe
+          git checkout --orphan deploy  # Crea una nueva rama sin historial
 
-    - name: Clean deployment folder on server
-      env:
-        SSH_USER: ${{ secrets.SSH_USER }}
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-        PATH_DEPLOY: ${{ secrets.PATH_DEPLOY }}
-      run: |
-        ssh "$SSH_USER@$SERVER_IP" "rm -rf $PATH_DEPLOY/*"
+          # Limpiar el contenido del repositorio y mover `dist/`
+          rm -rf .github src node_modules .gitignore package.json pnpm-lock.yaml
+          mv dist/* ./
+          rm -rf dist
 
-    - name: Deploy to server via SSH
-      env:
-        SSH_USER: ${{ secrets.SSH_USER }}
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-        PATH_DEPLOY: ${{ secrets.PATH_DEPLOY }}
-      run: |
-        scp -r ./dist/* "$SSH_USER@$SERVER_IP:$PATH_DEPLOY"
-
-    # - name: Set file permissions on server
-    #   env:
-    #     SSH_USER: ${{ secrets.SSH_USER }}
-    #     SERVER_IP: ${{ secrets.SERVER_IP }}
-    #     PATH_DEPLOY: ${{ secrets.PATH_DEPLOY }}
-    #   run: |
-    #     ssh "$SSH_USER@$SERVER_IP" "chmod -R 755 $PATH_DEPLOY"
+          # Commit y push de la rama `deploy`
+          git add .
+          git commit -m "🚀 Build Astro - $(date +'%Y-%m-%d %H:%M:%S')"
+          git push --force origin deploy
